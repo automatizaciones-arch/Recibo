@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recibo - Mueblería Adriana</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .recibo-container {
+            background-color: white;
+            width: 100%;
+            max-width: 420px;
+            padding: 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .header-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-bg::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: url('https://i.postimg.cc/PJkb6GV4/Logo-Murbleria.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.1;
+            transform: rotate(-20deg);
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header-content h1 {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header-content .telefono {
+            color: white;
+            font-size: 16px;
+            opacity: 0.95;
+        }
+        
+        .recibo-body {
+            padding: 25px;
+            position: relative;
+        }
+        
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            opacity: 0.03;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .watermark img {
+            width: 300px;
+            height: auto;
+        }
+        
+        .contenido {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .info-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+            align-items: flex-start;
+        }
+        
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .info-row .label {
+            color: #666;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        
+        .info-row .value {
+            font-weight: bold;
+            color: #333;
+            text-align: right;
+            max-width: 60%;
+            word-wrap: break-word;
+        }
+        
+        .divider {
+            height: 2px;
+            background: repeating-linear-gradient(
+                to right,
+                #ddd 0px,
+                #ddd 8px,
+                transparent 8px,
+                transparent 16px
+            );
+            margin: 20px 0;
+        }
+        
+        .folio-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+        }
+        
+        .concepto-header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+            margin: 25px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .monto-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .monto-card .concepto {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .monto-card .monto {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .saldo-nuevo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white !important;
+            font-size: 17px;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+        }
+        
+        .saldo-nuevo .concepto,
+        .saldo-nuevo .monto {
+            color: white !important;
+            font-weight: bold;
+        }
+        
+        .pago-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .firma-section {
+            margin: 50px 0 30px 0;
+            text-align: center;
+        }
+        
+        .firma-linea {
+            border-top: 2px solid #333;
+            width: 220px;
+            margin: 0 auto;
+        }
+        
+        .firma-label {
+            font-size: 13px;
+            color: #666;
+            margin-top: 8px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px dashed #ddd;
+        }
+        
+        .footer p {
+            margin: 8px 0;
+        }
+        
+        .footer .gracias {
+            font-weight: bold;
+            font-size: 16px;
+            color: #667eea;
+        }
+        
+        .footer .conserve {
+            font-size: 12px;
+            color: #999;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="recibo-container">
+        <!-- Header -->
+        <div class="header-bg">
+            <div class="header-content">
+                <h1>MUEBLERÍA ADRIANA</h1>
+                <div class="telefono">📞 Tel: (667) 1 89 66 15</div>
+            </div>
+        </div>
+        
+        <!-- Body -->
+        <div class="recibo-body">
+            <!-- Watermark -->
+            <div class="watermark">
+                <img src="https://i.postimg.cc/PJkb6GV4/Logo-Murbleria.png" alt="Logo">
+            </div>
+            
+            <div class="contenido">
+                <!-- Información básica -->
+                <div class="info-card">
+                    <div class="info-row">
+                        <span class="label">📅 Fecha</span>
+                        <span class="value" id="fecha">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">📄 Recibo</span>
+                        <span class="value" id="recibo">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">👤 Cliente</span>
+                        <span class="value" id="cliente">-</span>
+                    </div>
+                </div>
+                
+                <!-- Folio -->
+                <div class="folio-section">
+                    <span>💳 Crédito</span>
+                    <span id="credito">-</span>
+                </div>
+                
+                <!-- Concepto -->
+                <div class="concepto-header">CONCEPTO — MONTO</div>
+                
+                <div class="monto-card">
+                    <span class="concepto">💰 Saldo Anterior</span>
+                    <span class="monto" id="saldoAnterior">$0.00</span>
+                </div>
+                
+                <div class="monto-card">
+                    <span class="concepto">💵 Abono Recibido</span>
+                    <span class="monto" id="abono">$0.00</span>
+                </div>
+                
+                <div class="monto-card">
+                    <span class="concepto">📊 Total Abonado</span>
+                    <span class="monto" id="totalAbonado">$0.00</span>
+                </div>
+                
+                <div class="monto-card saldo-nuevo">
+                    <span class="concepto">🧾 Nuevo Saldo</span>
+                    <span class="monto" id="nuevoSaldo">$0.00</span>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <!-- Forma de pago -->
+                <div class="pago-section">
+                    <div class="info-row">
+                        <span class="label">💳 Forma de Pago</span>
+                        <span class="value">Efectivo</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">👨‍💼 Cobrador</span>
+                        <span class="value" id="cobrador">-</span>
+                    </div>
+                </div>
+                
+                <!-- Firma -->
+                <div class="firma-section">
+                    <div class="firma-linea"></div>
+                    <div class="firma-label">✍️ Firma del Cliente</div>
+                </div>
+                
+                <!-- Footer -->
+                <div class="footer">
+                    <p class="gracias">✅ ¡Gracias por su abono!</p>
+                    <p class="conserve">📌 **Conserve este mensaje como comprobante**</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para obtener parámetros de la URL
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Función para formatear números con comas
+        function formatMoney(amount) {
+            if (!amount) return '$0.00';
+            // Si ya tiene el signo $, lo removemos
+            amount = amount.toString().replace('$', '');
+            // Convertir a número
+            const num = parseFloat(amount);
+            if (isNaN(num)) return '$0.00';
+            // Formatear con comas y 2 decimales
+            return '$' + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        // Obtener todos los parámetros y actualizar el recibo
+        window.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('fecha').textContent = getUrlParameter('fecha') || '-';
+            document.getElementById('recibo').textContent = getUrlParameter('recibo') || '-';
+            document.getElementById('cliente').textContent = getUrlParameter('cliente') || '-';
+            document.getElementById('credito').textContent = getUrlParameter('credito') || '-';
+            document.getElementById('saldoAnterior').textContent = formatMoney(getUrlParameter('saldoAnterior'));
+            document.getElementById('abono').textContent = formatMoney(getUrlParameter('abono'));
+            document.getElementById('totalAbonado').textContent = formatMoney(getUrlParameter('totalAbonado'));
+            document.getElementById('nuevoSaldo').textContent = formatMoney(getUrlParameter('nuevoSaldo'));
+            document.getElementById('cobrador').textContent = getUrlParameter('cobrador') || '-';
+        });
+    </script>
+</body>
+</html>
