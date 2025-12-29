@@ -302,11 +302,6 @@
                     <span class="monto" id="abono">$0.00</span>
                 </div>
                 
-                <div class="monto-card">
-                    <span class="concepto">📊 Total Abonado</span>
-                    <span class="monto" id="totalAbonado">$0.00</span>
-                </div>
-                
                 <div class="monto-card saldo-nuevo">
                     <span class="concepto">🧾 Nuevo Saldo</span>
                     <span class="monto" id="nuevoSaldo">$0.00</span>
@@ -370,7 +365,6 @@
             document.getElementById('credito').textContent = getUrlParameter('credito') || '-';
             document.getElementById('saldoAnterior').textContent = formatMoney(getUrlParameter('saldoAnterior'));
             document.getElementById('abono').textContent = formatMoney(getUrlParameter('abono'));
-            document.getElementById('totalAbonado').textContent = formatMoney(getUrlParameter('totalAbonado'));
             document.getElementById('nuevoSaldo').textContent = formatMoney(getUrlParameter('nuevoSaldo'));
             document.getElementById('cobrador').textContent = getUrlParameter('cobrador') || '-';
         });
