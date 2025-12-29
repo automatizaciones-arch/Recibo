@@ -348,8 +348,8 @@
         // Función para formatear números con comas
         function formatMoney(amount) {
             if (!amount) return '$0.00';
-            // Si ya tiene el signo $, lo removemos
-            amount = amount.toString().replace('$', '');
+            // Remover símbolo $ y todas las comas
+            amount = amount.toString().replace(/\$/g, '').replace(/,/g, '');
             // Convertir a número
             const num = parseFloat(amount);
             if (isNaN(num)) return '$0.00';
