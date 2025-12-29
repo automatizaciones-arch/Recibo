@@ -337,7 +337,25 @@
     </div>
 
     <script>
-        // Función para obtener parámetros de la URL (ahora usa nombres ofuscados)
+        // CLAVE SECRETA PARA DECODIFICAR (no cambiar)
+        const SECRET_KEY = 8427;
+        const MULTIPLIER = 13;
+        const OFFSET = 5791;
+
+        // Función para decodificar números
+        function decodeNumber(encoded) {
+            if (!encoded || encoded === '') return 0;
+            try {
+                const num = parseFloat(encoded);
+                // Fórmula inversa: (valor - OFFSET - SECRET_KEY) / MULTIPLIER
+                const decoded = (num - OFFSET - SECRET_KEY) / MULTIPLIER;
+                return Math.round(decoded * 100) / 100; // Redondear a 2 decimales
+            } catch (e) {
+                return 0;
+            }
+        }
+
+        // Función para obtener parámetros de la URL
         function getUrlParameter(name) {
             name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
             var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -354,16 +372,27 @@
             return '$' + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         }
 
-        // Obtener parámetros con nombres ofuscados (a, b, c, d, e, f, g, h)
+        // Cargar datos del recibo
         window.addEventListener('DOMContentLoaded', function() {
+            // Datos de texto (sin codificar)
             document.getElementById('fecha').textContent = getUrlParameter('a') || '-';
             document.getElementById('recibo').textContent = getUrlParameter('b') || '-';
             document.getElementById('cliente').textContent = getUrlParameter('c') || '-';
             document.getElementById('credito').textContent = getUrlParameter('d') || '-';
-            document.getElementById('saldoAnterior').textContent = formatMoney(getUrlParameter('e'));
-            document.getElementById('abono').textContent = formatMoney(getUrlParameter('f'));
-            document.getElementById('nuevoSaldo').textContent = formatMoney(getUrlParameter('g'));
             document.getElementById('cobrador').textContent = getUrlParameter('h') || '-';
+            
+            // Números codificados (decodificar antes de mostrar)
+            const saldoAnteriorCodificado = getUrlParameter('e');
+            const abonoCodificado = getUrlParameter('f');
+            const nuevoSaldoCodificado = getUrlParameter('g');
+            
+            const saldoAnterior = decodeNumber(saldoAnteriorCodificado);
+            const abono = decodeNumber(abonoCodificado);
+            const nuevoSaldo = decodeNumber(nuevoSaldoCodificado);
+            
+            document.getElementById('saldoAnterior').textContent = formatMoney(saldoAnterior);
+            document.getElementById('abono').textContent = formatMoney(abono);
+            document.getElementById('nuevoSaldo').textContent = formatMoney(nuevoSaldo);
         });
     </script>
 </body>
