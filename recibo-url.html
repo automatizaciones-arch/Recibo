@@ -337,7 +337,7 @@
     </div>
 
     <script>
-        // Función para obtener parámetros de la URL
+        // Función para obtener parámetros de la URL (ahora usa nombres ofuscados)
         function getUrlParameter(name) {
             name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
             var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -348,25 +348,22 @@
         // Función para formatear números con comas
         function formatMoney(amount) {
             if (!amount) return '$0.00';
-            // Remover símbolo $ y todas las comas
             amount = amount.toString().replace(/\$/g, '').replace(/,/g, '');
-            // Convertir a número
             const num = parseFloat(amount);
             if (isNaN(num)) return '$0.00';
-            // Formatear con comas y 2 decimales
             return '$' + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         }
 
-        // Obtener todos los parámetros y actualizar el recibo
+        // Obtener parámetros con nombres ofuscados (a, b, c, d, e, f, g, h)
         window.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('fecha').textContent = getUrlParameter('fecha') || '-';
-            document.getElementById('recibo').textContent = getUrlParameter('recibo') || '-';
-            document.getElementById('cliente').textContent = getUrlParameter('cliente') || '-';
-            document.getElementById('credito').textContent = getUrlParameter('credito') || '-';
-            document.getElementById('saldoAnterior').textContent = formatMoney(getUrlParameter('saldoAnterior'));
-            document.getElementById('abono').textContent = formatMoney(getUrlParameter('abono'));
-            document.getElementById('nuevoSaldo').textContent = formatMoney(getUrlParameter('nuevoSaldo'));
-            document.getElementById('cobrador').textContent = getUrlParameter('cobrador') || '-';
+            document.getElementById('fecha').textContent = getUrlParameter('a') || '-';
+            document.getElementById('recibo').textContent = getUrlParameter('b') || '-';
+            document.getElementById('cliente').textContent = getUrlParameter('c') || '-';
+            document.getElementById('credito').textContent = getUrlParameter('d') || '-';
+            document.getElementById('saldoAnterior').textContent = formatMoney(getUrlParameter('e'));
+            document.getElementById('abono').textContent = formatMoney(getUrlParameter('f'));
+            document.getElementById('nuevoSaldo').textContent = formatMoney(getUrlParameter('g'));
+            document.getElementById('cobrador').textContent = getUrlParameter('h') || '-';
         });
     </script>
 </body>
